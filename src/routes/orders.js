@@ -13,24 +13,12 @@ router.get("/", async (req, res) => {
       });
       return res.json(orders);
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json(error.message);
     }
   }
 
   return res.status(400).json({ message: "Invalid query" });
 });
-
-// Get orders by user ID
-// router.get("/user/:userId", async (req, res) => {
-//   try {
-//     const orders = await Order.find({ userId: req.params.userId });
-//     if (orders.length === 0)
-//       return res.status(404).json({ message: "No orders found for this user" });
-//     res.json(orders);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// });
 
 // Create a new order
 router.post("/", async (req, res) => {
@@ -39,7 +27,7 @@ router.post("/", async (req, res) => {
     const newOrder = await order.save();
     res.status(201).json(newOrder);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json(error.message);
   }
 });
 

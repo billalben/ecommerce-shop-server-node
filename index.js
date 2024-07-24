@@ -2,12 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const authRoutes = require("./routes/auth");
-const categoryRoutes = require("./routes/categories");
-const productRoutes = require("./routes/products");
-const wishlistRoutes = require("./routes/wishlist");
-const orderRoutes = require("./routes/orders");
-const userRoutes = require("./routes/users");
+const authRoutes = require("./src/routes/auth");
+const categoryRoutes = require("./src/routes/categories");
+const productRoutes = require("./src/routes/products");
+const wishlistRoutes = require("./src/routes/wishlist");
+const orderRoutes = require("./src/routes/orders");
+const userRoutes = require("./src/routes/users");
 
 dotenv.config();
 
