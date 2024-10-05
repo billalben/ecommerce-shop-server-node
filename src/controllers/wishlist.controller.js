@@ -1,13 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const Wishlist = require("../models/Wishlist");
-const auth = require("../middlewares/auth");
-const { exists } = require("../models/Product");
+"use strict";
 
-// router.use(auth);
+const { model } = require("mongoose");
+const Wishlist = require("../models/wishlist.model");
 
-// Get a user's wishlist
-router.get("/", async (req, res) => {
+const getWishlist = async (req, res) => {
   const { userId, productId } = req.query;
 
   if (userId && productId) {
@@ -33,10 +29,9 @@ router.get("/", async (req, res) => {
   }
 
   res.status(400).json({ message: "Missing query parameters" });
-});
+};
 
-// Add a product to the wishlist
-router.post("/", async (req, res) => {
+const postWishlist = async (req, res) => {
   const { userId, productId } = req.body;
 
   try {
@@ -46,10 +41,9 @@ router.post("/", async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-});
+};
 
-// Remove a product from the wishlist
-router.delete("/:id", async (req, res) => {
+const deleteWishlist = async (req, res) => {
   try {
     const deletedWishlist = await Wishlist.findByIdAndDelete(req.params.id);
     if (!deletedWishlist)
@@ -58,6 +52,10 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  getWishlist,
+  postWishlist,
+  deleteWishlist,
+};

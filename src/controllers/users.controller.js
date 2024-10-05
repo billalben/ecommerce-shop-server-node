@@ -1,9 +1,10 @@
-const express = require("express");
-const router = express.Router();
-const User = require("../models/User");
+"use strict";
 
-// check if user is exist (?email=)
-router.get("/", async (req, res) => {
+const User = require("../models/user.model");
+
+// Check if a user exists
+
+const userExists = async (req, res) => {
   const { email } = req.query;
 
   try {
@@ -19,6 +20,8 @@ router.get("/", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  userExists,
+};

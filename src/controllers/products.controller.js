@@ -1,9 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const Product = require("../models/Product");
+"use strict";
+
+const Product = require("../models/product.model");
 
 // Get products by category prefix or by ids
-router.get("/", async (req, res) => {
+const getProducts = async (req, res) => {
   const { cat_prefix, ids } = req.query;
 
   if (ids) {
@@ -28,6 +28,8 @@ router.get("/", async (req, res) => {
   }
 
   return res.status(400).json({ message: "Missing query parameter" });
-});
+};
 
-module.exports = router;
+module.exports = {
+  getProducts,
+};
