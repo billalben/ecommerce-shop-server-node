@@ -2,23 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const authRoutes = require("./src/routes/auth");
-const categoryRoutes = require("./src/routes/categories");
-const productRoutes = require("./src/routes/products");
-const wishlistRoutes = require("./src/routes/wishlist");
-const orderRoutes = require("./src/routes/orders");
-const userRoutes = require("./src/routes/users");
+const job = require("./src/config/cron");
 
 dotenv.config();
+
+job.start();
 
 const app = express();
 app.use(express.json());
 
-const whiteList = [
-  "http://localhost:5173",
-  "http://127.0.0.1:5173",
-  "https://shop-bz.netlify.app",
-];
+const whiteList = [process.env.FRONTEND_URL];
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -33,16 +26,16 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/wishlist", wishlistRoutes);
-app.use("/api/orders", orderRoutes);
+app.use("/api/users", require("./src/routes/users"));
+app.use("/api/auth", require("./src/routes/auth"));
+app.use("/api/categories", require("./src/routes/categories"));
+app.use("/api/products", require("./src/routes/products"));
+app.use("/api/wishlist", require("./src/routes/wishlist"));
+app.use("/api/orders", require("./src/routes/orders"));
 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>
-    app.listen(5001, () => console.log("Server is running on port 5001"))
+    app.listen(5001, () => console.log(`Server running on port 5001`))
   )
   .catch((err) => console.log(err));
