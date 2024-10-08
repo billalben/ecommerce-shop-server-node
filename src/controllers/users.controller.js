@@ -2,14 +2,16 @@
 
 const User = require("../models/user.model");
 
-// Check if a user exists
-
 const userExists = async (req, res) => {
   const { email } = req.query;
 
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
   try {
     if (email) {
-      const user = await User.findOne({ email: email });
+      const user = await User.findOne({ email });
 
       if (!user) {
         return res.json({ message: "User not found", exists: false });
@@ -18,7 +20,7 @@ const userExists = async (req, res) => {
       res.json({ message: "User found", exists: true });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error?.message });
   }
 };
 

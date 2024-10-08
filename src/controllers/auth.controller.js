@@ -2,18 +2,28 @@ const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-exports.register = async (req, res) => {
+const register = async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
 
   const isEmailExist = await User.findOne({ email });
   if (isEmailExist) return res.status(400).json("Email already exists");
 
+  console.log("firstname", firstName);
+  console.log("lastname", lastName);
+  console.log("email", email);
+  console.log("password", password);
+
+  if (!email || !password || !firstName || !lastName) {
+    return res.status(400).json("All fields are required");
+  }
+
   try {
-    await User.create({
+    const user = await User.create({
       email,
       password,
       firstName,
       lastName,
+      imageProfile: `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`,
     });
 
     res.status(201).json("User registered successfully");
@@ -22,7 +32,7 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
@@ -37,12 +47,19 @@ exports.login = async (req, res) => {
       expiresIn: "1h",
     });
 
-    // Create a user object without the password
-    const userWithoutPassword = user.toObject();
-    delete userWithoutPassword.password;
-
-    res.json({ user: userWithoutPassword, token });
+    res.json({
+      user: {
+        ...user.toObject(),
+        password: undefined,
+      },
+      token,
+    });
   } catch (error) {
     res.status(500).json(error.message);
   }
+};
+
+module.exports = {
+  register,
+  login,
 };
