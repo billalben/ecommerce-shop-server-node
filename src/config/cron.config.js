@@ -7,7 +7,7 @@ const job = new cron.schedule("*/10 * * * *", function () {
   https
     .get(URL, (res) => {
       if (res.statusCode === 200) {
-        console.log(`GET request ${res.statusCode} - ${URL}`);
+        console.log(`GET request sent`);
       } else console.log("GET request failed", res.statusCode);
     })
     .on("error", (e) => {
