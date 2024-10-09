@@ -12,11 +12,11 @@ const getOrders = async (req, res) => {
       });
       return res.json(orders);
     } catch (error) {
-      return res.status(500).json(error.message);
+      return res.status(500).json(error?.message);
     }
   }
 
-  return res.status(400).json({ message: "Invalid query" });
+  return res.status(400).json("Invalid query");
 };
 
 const createOrder = async (req, res) => {
@@ -25,7 +25,7 @@ const createOrder = async (req, res) => {
     const newOrder = await order.save();
     res.status(201).json(newOrder);
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(400).json(error?.message);
   }
 };
 

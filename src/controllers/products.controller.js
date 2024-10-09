@@ -11,7 +11,7 @@ const getProducts = async (req, res) => {
       const products = await Product.find({ _id: { $in: ids.split(",") } });
       return res.json(products);
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json(error?.message);
     }
   }
 
@@ -23,11 +23,11 @@ const getProducts = async (req, res) => {
       });
       return res.json(products);
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json(error?.message);
     }
   }
 
-  return res.status(400).json({ message: "Missing query parameter" });
+  return res.status(400).json("Missing query parameter");
 };
 
 module.exports = {

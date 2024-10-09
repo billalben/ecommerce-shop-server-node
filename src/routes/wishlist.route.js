@@ -1,6 +1,7 @@
 "use strict";
 
 const router = require("express").Router();
+const verifyToken = require("../middlewares/auth.middleware");
 const {
   getWishlist,
   postWishlist,
@@ -8,12 +9,12 @@ const {
 } = require("../controllers/wishlist.controller");
 
 // GET route: /api/wishlist
-router.get("/", getWishlist);
+router.get("/", verifyToken, getWishlist);
 
 // POST route: /api/wishlist
-router.post("/", postWishlist);
+router.post("/", verifyToken, postWishlist);
 
 // DELETE route: /api/wishlist/:id
-router.delete("/:id", deleteWishlist);
+router.delete("/:id", verifyToken, deleteWishlist);
 
 module.exports = router;

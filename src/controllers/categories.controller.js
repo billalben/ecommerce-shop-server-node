@@ -7,7 +7,7 @@ const getCategories = async (req, res) => {
     const categories = await Category.find();
     res.json(categories);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json(error?.message);
   }
 };
 

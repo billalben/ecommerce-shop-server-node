@@ -5,9 +5,7 @@ const User = require("../models/user.model");
 const userExists = async (req, res) => {
   const { email } = req.query;
 
-  if (!email) {
-    return res.status(400).json({ message: "Email is required" });
-  }
+  if (!email) return res.status(400).json("Email is required");
 
   try {
     if (email) {

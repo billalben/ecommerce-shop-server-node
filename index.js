@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const { connectDB, disconnectDB } = require("./src/config/mongoose.config");
 const job = require("./src/config/cron.config");
 
@@ -10,6 +11,8 @@ job.start();
 
 const app = express();
 app.use(express.json());
+
+app.use(cookieParser());
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -26,6 +29,10 @@ app.use("/api/categories", require("./src/routes/categories.route"));
 app.use("/api/products", require("./src/routes/products.route"));
 app.use("/api/wishlist", require("./src/routes/wishlist.route"));
 app.use("/api/orders", require("./src/routes/orders.route"));
+
+app.get("/", (req, res) => {
+  res.send("Welcome to E-commerce Shop API");
+});
 
 const server = app.listen(5501, async () => {
   await connectDB(process.env.MONGO_URI);

@@ -6,8 +6,9 @@ const URL = "https://ecommerce-shop-server-qfuo.onrender.com";
 const job = new cron.schedule("*/10 * * * *", function () {
   https
     .get(URL, (res) => {
-      if (res.statusCode === 200) console.log("GET request sent successfully");
-      else console.log("GET request failed", res.statusCode);
+      if (res.statusCode === 200) {
+        console.log(`GET request ${res.statusCode} - ${URL}`);
+      } else console.log("GET request failed", res.statusCode);
     })
     .on("error", (e) => {
       console.error("Error while sending request", e);
