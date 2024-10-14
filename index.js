@@ -3,11 +3,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { connectDB, disconnectDB } = require("./src/config/mongoose.config");
-const job = require("./src/config/cron.config");
 
 dotenv.config();
-
-job.start();
 
 const app = express();
 app.use(express.json());
